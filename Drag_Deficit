@@ -1,0 +1,29 @@
+%Andrew Farmer Drag deficit Lab
+clc, clear all, close all
+format long
+D = 63.5; %mm
+pitotReadings = [51,47,46,44,41,38,35,34,31,31,30,31,33,33,34,35,36,37,39,41,44,47,48,50,55,56];
+readingsScale = 53.4:5:178.4; %mm
+vVinf = zeros(length(pitotReadings),1);
+normVec = zeros(length(pitotReadings),1);
+plot2vals = zeros(length(pitotReadings),1);
+for n = 1:length(pitotReadings)
+    vVinf(n) = sqrt(pitotReadings(n)/56);
+    normVec(n) = vVinf(n)*(1-vVinf(n));
+end
+yd = (readingsScale./D)-1.6283;
+plot(yd,vVinf)
+grid on 
+box on
+title('Velocity Profile behind cylinder')
+xlabel('y/d')
+ylabel('V/Vinf')
+figure()
+plot(yd,normVec)
+xlabel('y/d')
+ylabel('V/Vinf*(1-V/Vinf)')
+grid on 
+box on
+title('Drag Coefficient per Unit Span Vs y/d')
+cd = 2*trapz(yd,normVec);
+fprintf('The value of Cd is %f',cd)
